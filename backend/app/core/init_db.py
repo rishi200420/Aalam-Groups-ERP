@@ -19,15 +19,22 @@ def run_migrations():
 
     try:
         config = Config(str(BACKEND_ROOT / "alembic.ini"))
-        config.set_main_option("script_location", str(BACKEND_ROOT / "migrations"))
-        config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+        config.set_main_option(
+            "script_location",
+            str(BACKEND_ROOT / "migrations"),
+        )
+        config.set_main_option(
+            "sqlalchemy.url",
+            settings.DATABASE_URL,
+        )
 
         command.upgrade(config, "head")
 
         logger.info("STEP 2 - Alembic Finished")
 
     except Exception:
-        logger.exception("Alembic migration failed")
+        import traceback
+        traceback.print_exc()
         raise
 
 
