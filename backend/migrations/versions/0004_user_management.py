@@ -4,7 +4,6 @@ from typing import Sequence, Union
 
 import sqlalchemy as sa
 from alembic import op
-from sqlalchemy.dialects import postgresql
 
 revision: str = "0004_user_management"
 down_revision: Union[str, None] = "0003_product_management"
@@ -20,9 +19,14 @@ def upgrade() -> None:
     op.add_column("users", sa.Column("joining_date", sa.Date(), nullable=True))
     op.add_column("users", sa.Column("profile_image_url", sa.Text(), nullable=True))
     op.add_column(
-        "users",
-        sa.Column("created_by", postgresql.UUID(as_uuid=True), sa.ForeignKey("users.id"), nullable=True),
-    )
+    "users",
+    sa.Column(
+        "created_by",
+        sa.String(36),
+        sa.ForeignKey("users.id"),
+        nullable=True,
+    ),
+)
     # SQLite can't ALTER TABLE ... ADD CONSTRAINT directly; batch mode rebuilds the
     # table under the hood so these constraints apply on every supported dialect,
     # including a completely fresh SQLite database (not just Postgres).

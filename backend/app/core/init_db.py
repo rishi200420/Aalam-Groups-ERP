@@ -17,13 +17,18 @@ BACKEND_ROOT = Path(__file__).resolve().parents[2]
 def run_migrations():
     logger.info("STEP 1 - Running Alembic")
 
-    config = Config(str(BACKEND_ROOT / "alembic.ini"))
-    config.set_main_option("script_location", str(BACKEND_ROOT / "migrations"))
-    config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
+    try:
+        config = Config(str(BACKEND_ROOT / "alembic.ini"))
+        config.set_main_option("script_location", str(BACKEND_ROOT / "migrations"))
+        config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
-    command.upgrade(config, "head")
+        command.upgrade(config, "head")
 
-    logger.info("STEP 2 - Alembic Finished")
+        logger.info("STEP 2 - Alembic Finished")
+
+    except Exception:
+        logger.exception("Alembic migration failed")
+        raise
 
 
 def init_database():
