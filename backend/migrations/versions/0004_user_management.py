@@ -4,6 +4,7 @@ from typing import Sequence, Union
 
 import sqlalchemy as sa
 from alembic import op
+from sqlalchemy.dialects import postgresql
 
 revision: str = "0004_user_management"
 down_revision: Union[str, None] = "0003_product_management"
