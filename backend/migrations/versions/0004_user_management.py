@@ -21,8 +21,8 @@ def upgrade() -> None:
     op.add_column(
     "users",
     sa.Column(
-        "created_by",
-        sa.String(36),
+       "created_by",
+        postgresql.UUID(as_uuid=True),
         sa.ForeignKey("users.id"),
         nullable=True,
     ),
