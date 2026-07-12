@@ -13,6 +13,7 @@ from app.core.init_db import init_database, run_migrations
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    run_migrations()      # <-- ADD THIS LINE
     init_database()
     yield
 
